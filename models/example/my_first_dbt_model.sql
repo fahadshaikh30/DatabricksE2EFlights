@@ -1,4 +1,3 @@
-
 /*
     Welcome to your first dbt model!
     Did you know that you can also configure models directly within SQL files?
@@ -6,22 +5,24 @@
 
     Try changing "table" to "view" below
 */
+{{ config(materialized="table") }}
 
-{{ config(materialized='table') }}
-
-with source_data as (
-
-    select 1 as id
-    union all
-    select null as id
-
+with parent_query as (
+select 
+    F.Amount,
+    D.country
+from
+    workspace.gold.FactBookings F
+left join
+    workspace.gold.DimAirports D
+ON
+    F.DimAirportsKey = D.DimAirportsKey
 )
 
-select *
-from source_data
-
-/*
+select country, sum(Amount) as total_amount
+from parent_query
+group by country
+    /*
     Uncomment the line below to remove records with null `id` values
 */
-
--- where id is not null
+    -- where id is not null
