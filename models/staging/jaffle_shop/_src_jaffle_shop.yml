@@ -3,17 +3,22 @@ version: 2
 sources:
   - name: jaffle_shop
     database: raw
+    description:  A clone of a CSV file
     tables:
       - name: customers
+        description: Raw customer data
         columns:
           - name: id
+            description: Primary key for the customer data
             data_tests:
               - unique
               - not_null
               
       - name: orders
+        description: Raw orders data.
         columns:
           - name: id
+            description: Primary key for orders data
             data_tests:
               - unique
               - not_null
